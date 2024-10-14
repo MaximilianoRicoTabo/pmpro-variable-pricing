@@ -51,6 +51,11 @@ function pmprovp_get_settings( $level_id ) {
 */
 // fields on edit page
 function pmprovp_pmpro_membership_level_after_other_settings() {
+	//Bail if it's a free level
+	$pmpro_level = pmpro_getLevelAtCheckout();
+	if( pmpro_isLevelFree( $pmpro_level ) ) {
+		return;
+	}
 	global $pmpro_currency_symbol;
 	$level_id = intval( $_REQUEST['edit'] );
 	if ( $level_id > 0 ) {
@@ -230,7 +235,12 @@ add_action( 'pmpro_membership_levels_table_extra_cols_body', 'pmprovp_pmpro_memb
 
 // show form
 function pmprovp_pmpro_checkout_after_level_cost() {
-	global $pmpro_level, $gateway, $pmpro_review, $pmpro_currencies, $pmpro_currency, $pmpro_currency_symbol;
+	global  $gateway, $pmpro_review, $pmpro_currencies, $pmpro_currency, $pmpro_currency_symbol;
+	$pmpro_level = pmpro_getLevelAtCheckout();
+	//Bail if it's a free level
+	if( pmpro_isLevelFree( $pmpro_level ) ) {
+		return;
+	}
 
 	// get variable pricing info
 	$vpfields = pmprovp_get_settings( $pmpro_level->id );
