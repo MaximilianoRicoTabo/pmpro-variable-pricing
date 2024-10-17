@@ -295,14 +295,37 @@ function pmprovp_pmpro_checkout_after_level_cost() {
 	$price_text = apply_filters( 'pmprovp_checkout_price_input_label', $price_text );
 
 ?>
-<div class="pmprovp">
-	<p class="pmprovp_price_text_description"><?php echo esc_html( $price_text_description ); ?></p>
-<p class="pmprovp_price_input"><?php echo esc_html( $price_text ); ?> <input type="text" id="price" name="price" size="10" value="<?php esc_attr_e( $price ); ?>" style="width:auto;" <?php if( $pmpro_review ) { ?> readonly <?php } ?>/> <?php if ( !empty( $pmpro_currencies[$pmpro_currency]['position'] ) &&  $pmpro_currencies[$pmpro_currency]['position'] == 'right' ) { echo esc_html( $pmpro_currency_symbol ); } ?>
-	<span id="pmprovp-warning" class="pmpro_message pmpro_alert" style="display:none;"><small><?php echo esc_html( $price_text_description ); ?></small></span></p>
-</div> <!-- end .pmprovp -->
+	<fieldset id="pmpro-variable-pricing" class="<?php echo esc_attr( pmpro_get_element_class(
+				'pmpro_form_fieldset pmpro-variable-pricing' ) ); ?>">
+		<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card') ); ?>">
+			<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_card_content' ) ); ?>">
+				<legend class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_legend' ) ); ?>">
+					<h2 class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_heading pmpro_font-large' ) ); ?>">
+						<!-- add text within a filter for easier customization -->
+						 <?php echo apply_filters( 'pmprovp_checkout_price_legend', esc_html__( 'Variable Pricing', 'pmpro-variable-pricing' ) ); ?>
+					</h2>
+				</legend>
+				<p class="<?php echo esc_attr( pmpro_get_element_class( "pmprovp_price_text_description" ) ) ?>">
+					<?php echo esc_html( $price_text_description ); ?>
+				</p>
+				<p class="<?php echo esc_attr( pmpro_get_element_class( "pmprovp_price_input" ) ) ?>">
+					<?php echo esc_html( $price_text ); ?>
+					<input type="text" id="price" name="price" size="10" value="<?php esc_attr_e( $price ); ?>" style="width:auto;" <?php if( $pmpro_review ) { ?> readonly <?php } ?>/> 
+					<?php if ( !empty( $pmpro_currencies[$pmpro_currency]['position'] ) &&  $pmpro_currencies[$pmpro_currency]['position'] == 'right' ) {
+							echo esc_html( $pmpro_currency_symbol );
+					} ?>
+					<span id="pmprovp-warning" class="<?php echo esc_attr( pmpro_get_element_class( "pmpro_message pmpro_alert" ) ) ?>" style="display:none;">
+						<small>
+							<?php echo esc_html( $price_text_description ); ?>
+						</small>
+					</span>
+				</p>
+			</div>
+		</div>
+	</fieldset>
 <?php
 }
-add_action( 'pmpro_checkout_after_level_cost', 'pmprovp_pmpro_checkout_after_level_cost' );
+add_action( 'pmpro_checkout_boxes', 'pmprovp_pmpro_checkout_after_level_cost' );
 
 // set price
 function pmprovp_pmpro_checkout_level( $level ) {
