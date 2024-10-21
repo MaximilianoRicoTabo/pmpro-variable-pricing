@@ -310,7 +310,7 @@ function pmprovp_pmpro_checkout_after_level_cost() {
 				</p>
 				<p class="<?php echo esc_attr( pmpro_get_element_class( "pmprovp_price_input" ) ) ?>">
 					<?php echo esc_html( $price_text ); ?>
-					<input type="text" id="price" name="price" size="10" value="<?php esc_attr_e( $price ); ?>" style="width:auto;" <?php if( $pmpro_review ) { ?> readonly <?php } ?>/> 
+					<input type="text" id="price" name="price" size="10" value="<?php echo esc_attr( $price ); ?>" style="width:auto;" <?php if( $pmpro_review ) { ?> readonly <?php } ?>/>
 					<?php if ( !empty( $pmpro_currencies[$pmpro_currency]['position'] ) &&  $pmpro_currencies[$pmpro_currency]['position'] == 'right' ) {
 							echo esc_html( $pmpro_currency_symbol );
 					} ?>
@@ -507,3 +507,4 @@ function pmprovp_plugin_row_meta( $links, $file ) {
 	return $links;
 }
 add_filter( 'plugin_row_meta', 'pmprovp_plugin_row_meta', 10, 2 );
+
