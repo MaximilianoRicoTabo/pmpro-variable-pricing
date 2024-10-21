@@ -105,7 +105,7 @@ function pmprovp_pmpro_membership_level_after_other_settings() {
 		 * Toggle settings based on the variable pricing checkbox.
 		 */
 		function pmprovp_toggleSettings() {
-			const pmprovp_enabled = jQuery( '#pmprovp_variable_pricing:checked' ).val();
+			const pmprovp_enabled = $( '#pmprovp_variable_pricing:checked' ).val();
 			$( 'tr.pmprovp_setting' ).show();
 			if(! pmprovp_enabled ) {
 				//disable
@@ -130,11 +130,12 @@ add_action( 'pmpro_membership_level_after_other_settings', 'pmprovp_pmpro_member
 
 // save level cost text when the level is saved/added
 function pmprovp_pmpro_save_membership_level( $level_id ) {
-	//Bail if variable pricing is not set.
+	//If the request is empty, set the variable pricing to 0, otherwise we get a warning.
 	if ( empty( $_REQUEST['variable_pricing'] ) ) {
-		return;
+		$variable_pricing = 0;
+	} else {
+		$variable_pricing = intval( $_REQUEST['variable_pricing'] );
 	}
-	$variable_pricing = intval( $_REQUEST['variable_pricing'] );
 	$min_price        = preg_replace( '[^0-9\.]', '', $_REQUEST['min_price'] );
 	$max_price        = preg_replace( '[^0-9\.]', '', $_REQUEST['max_price'] );
 	$suggested_price  = preg_replace( '[^0-9\.]', '', $_REQUEST['suggested_price'] );
